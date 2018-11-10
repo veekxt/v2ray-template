@@ -1,0 +1,79 @@
+{
+  //
+  // 一个简单的内网穿透的配置，来自官网 https://www.v2ray.com/chapter_02/reverse.html
+  // 这组配置里，访问服务器的8000端口，其效果相当于访问内网的8000端口
+  // 这个文件用于公网设备
+  //
+  "log": {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "warning"
+  },
+  "dns": {},
+  "stats": {},
+  "inbounds": [
+    {
+      "tag": "external",
+      "port": 8000,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1",
+        "port": 8000,
+        "network": "tcp"
+      }
+    },
+    {
+      "port": 3456,
+      "tag": "interconn",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "27848739-7e62-4138-9fd3-098a63964b6b"
+          }
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "external"
+        ],
+        "outboundTag": "portal"
+      },
+      {
+        "type": "field",
+        "inboundTag": [
+          "interconn"
+        ],
+        "outboundTag": "portal"
+      }
+    ]
+  },
+  "policy": {},
+  "reverse": {
+    "portals": [
+      {
+        "tag": "portal",
+        "domain": "veekxt.com"
+      }
+    ]
+  },
+  "transport": {}
+}

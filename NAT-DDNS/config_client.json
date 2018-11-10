@@ -1,0 +1,69 @@
+{
+  //
+  // 一个简单的内网穿透的配置，来自官网 https://www.v2ray.com/chapter_02/reverse.html
+  // 这组配置里，访问服务器的8000端口，其效果相当于访问内网的8000端口
+  // 这个文件用于内网设备
+  //
+  "log": {},
+  "dns": {},
+  "stats": {},
+  "inbounds": [],
+  "outbounds": [
+    {
+      "tag": "out",
+      "protocol": "freedom",
+      "settings": {
+        "redirect": "127.0.0.1:8000"
+      }
+    },
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "veekxt.com",
+            "port": 3456,
+            "users": [
+              {
+                "id": "27848739-7e62-4138-9fd3-098a63964b6b"
+              }
+            ]
+          }
+        ]
+      },
+      "tag": "interconn"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "bridge"
+        ],
+        "domain": [
+          "full:veekxt.com"
+        ],
+        "outboundTag": "interconn"
+      },
+      {
+        "type": "field",
+        "inboundTag": [
+          "bridge"
+        ],
+        "outboundTag": "out"
+      }
+    ]
+  },
+  "policy": {},
+  "reverse": {
+    "bridges": [
+      {
+        "tag": "bridge",
+        "domain": "veekxt.com"
+      }
+    ]
+  },
+  "transport": {}
+}

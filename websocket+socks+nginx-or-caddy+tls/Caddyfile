@@ -1,0 +1,8 @@
+https://veekxt.com:443 {
+    root /var/www/
+    tls veekxt@gmail.com
+    proxy /veekxt_websocket_test 127.0.0.1:44222 {
+        websocket
+        header_upstream -Origin
+    }
+}
