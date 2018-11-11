@@ -27,9 +27,9 @@
           {
             "email":"love@v2ray.com",
             "address":"veekxt.com",
-            "port":7888,
+            "port":3333,
             "method":"aes-128-gcm",
-            "password":"yhaasibeipkiphyt",
+            "password":"uyhlfwnawoxeinoi",
             "ota":false,
             "level":0
           }

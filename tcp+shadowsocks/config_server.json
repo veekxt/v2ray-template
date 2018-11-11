@@ -9,20 +9,20 @@
   "inbounds": [
     {
       "port": 3333,
-      "protocol": "vmess",
+      "protocol": "shadowsocks",
       "settings": {
-        "clients": [
-          {
-            "id": "1fd84ef4-6c9f-49fd-bfc6-2eeccccf10d0",
-            "alterId": 32
-          }
-        ]
+        "email": "love@v2ray.com",
+        "method": "aes-128-gcm",
+        "password": "uyhlfwnawoxeinoi",
+        "level": 0,
+        "ota": false,
+        "network": "tcp,udp"
       },
       "tag": "in-0",
       "streamSettings": {
-        "network": "kcp",
+        "network": "tcp",
         "security": "none",
-        "kcpSettings": {}
+        "tcpSettings": {}
       }
     }
   ],
