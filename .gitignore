@@ -1,0 +1,7 @@
+venv
+*.swp
+__*
+diff
+.*
+!.gitignore
+test/
