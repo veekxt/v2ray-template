@@ -1,7 +1,6 @@
 {
   //
-  // 一个简单的内网穿透的配置，来自官网 https://www.v2ray.com/chapter_02/reverse.html
-  // 这组配置里，访问服务器的8000端口，其效果相当于访问内网的8000端口
+  // 效果相当于使用内网设备做正向代理，参考 https://toutyrater.github.io/app/reverse2.html
   // 这个文件用于公网设备
   //
   "log": {
@@ -14,12 +13,15 @@
   "inbounds": [
     {
       "tag": "external",
-      "port": 8000,
-      "protocol": "dokodemo-door",
+      "port": 44222,
+      "protocol": "vmess",
       "settings": {
-        "address": "127.0.0.1",
-        "port": 8000,
-        "network": "tcp"
+        "clients": [
+          {
+            "id": "a26efdb8-ef34-4278-a4e6-2af32cc010aa",
+            "alterId": 32
+          }
+        ]
       }
     },
     {
@@ -62,6 +64,9 @@
         "type": "field",
         "inboundTag": [
           "interconn"
+        ],
+        "domain": [
+          "full:veekxt.com"
         ],
         "outboundTag": "portal"
       }
