@@ -25,11 +25,11 @@
       "settings":{
         "vnext":[
           {
-            "address":"67.230.190.106",
+            "address":"",
             "port":3333,
             "users":[
               {
-                "id":"4299c2e4-d5ee-4c88-ab41-74fdddd1c8ca",
+                "id":"8b37e6c7-63cb-485f-ab80-8ffb92935296",
                 "alterId":32
               }
             ]
