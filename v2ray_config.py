@@ -28,8 +28,6 @@ config_from_t = {
 
 
 def get_v2ray_config(config_from):
-    print("ssssssssssssss")
-    print(config_from)
     js_c = None
     js_s = None
     conf_reversed = None
