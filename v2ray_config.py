@@ -1,3 +1,4 @@
+import copy
 import json
 import random
 import string
@@ -21,11 +22,13 @@ config_from_t = {
     "reversed_proxy": 1,
     "ws_path": "/veekxtwstest",
     "tls_file": "/pa/to/tls",
-    "tls_key": "/pa/to/tls/key"
+    "tls_key": "/pa/to/tls/key",
+    "extra_mtproto": 1
 }
 
 
 def get_v2ray_config(config_from):
+    print("ssssssssssssss")
     print(config_from)
     js_c = None
     js_s = None
@@ -109,7 +112,7 @@ def get_v2ray_config(config_from):
     data_ps = data_protocol[config_from["data_protocol"]]
 
     vmess_uuid = str(uuid.uuid4())
-    ss_passwd= ''.join(random.sample(string.ascii_letters, 16)).lower()
+    ss_passwd = rand_string(string.ascii_lowercase, 16)
 
     if data_ps == "vmess":
         out_set["vnext"] = [
@@ -162,7 +165,7 @@ def get_v2ray_config(config_from):
         }
     if config_from["tls"] == 1:
         stream["tlsSettings"] = {
-            "serverName": config_from["tls_server"],
+            "serverName": server_name,
         }
 
     outbounds.append(outbound)
@@ -234,6 +237,19 @@ def get_v2ray_config(config_from):
             "settings": {}
         })
 
+    routing["domainStrategy"] = "AsIs"
+    routing["rules"] = []
+
+    rule = {
+        "type": "field",
+        "ip": [
+            "geoip:private"
+        ],
+        "outboundTag": "blocked"
+    }
+
+    routing["rules"].append(rule)
+
     inbound = {
         "port": config_from["server_port"],
         "protocol": data_ps,
@@ -288,21 +304,7 @@ def get_v2ray_config(config_from):
             "userLevel": 0
         }
     elif data_ps == "mtproto":
-        inbound["settings"] = {
-            "users": [{
-                "email": "love@v2ray.com",
-                "level": 0,
-                "secret": "b0cbcef5a486d9636472ac27f8e11a9d"
-            }]
-        }
-        inbound["tag"] = "in-tg"
-        outbounds.append(
-            {
-                "tag": "out-tg",
-                "protocol": "mtproto",
-                "settings": {}
-            })
-        # todo routing
+        add_a_mtproto(inbound, outbounds, inbound["port"], 'in-tag')
 
     if network == "tcp":
         stream["tcpSettings"] = {}
@@ -329,18 +331,10 @@ def get_v2ray_config(config_from):
 
     inbounds.append(inbound)
 
-    routing["domainStrategy"] = "AsIs"
-    routing["rules"] = []
-
-    rule = {
-        "type": "field",
-        "ip": [
-            "geoip:private"
-        ],
-        "outboundTag": "blocked"
-    }
-
-    routing["rules"].append(rule)
+    if config_from["extra_mtproto"]:
+        extra_in = copy.deepcopy(inbound)
+        add_a_mtproto(extra_in, outbounds, inbound["port"] + 1000, 'in-etag')
+        inbounds.append(extra_in)
 
     tg_in_tag = []
     for c in inbounds:
@@ -354,6 +348,12 @@ def get_v2ray_config(config_from):
             "outboundTag": "out-tg"
         }
         routing["rules"].append(rule)
+        outbounds.append(
+            {
+                "tag": "out-tg",
+                "protocol": "mtproto",
+                "settings": {}
+            })
 
     js_s = json.dumps(v2ray_config_s, sort_keys=False, indent=2, separators=(',', ': '))
     conf_reversed = None
@@ -388,7 +388,7 @@ def get_v2ray_config(config_from):
             domain = "http://" + server_name + ":" + str(config_from["server_port"])
         path = config_from["ws_path"]
         be_proxy = "127.0.0.1:" + str(local_port)
-        host_domain = '"'+server_name+'"'
+        host_domain = '"' + server_name + '"'
         if tls_should_be_config:
             be_proxy = "https://" + be_proxy
         if trans_protocol[config_from["trans_protocol"]] == "ws":
@@ -400,6 +400,26 @@ def get_v2ray_config(config_from):
     return (use_c, use_s, use_re, js_c, js_s, conf_reversed)
 
 
+def add_a_mtproto(inbound, outbounds, port, tag):
+    inbound["settings"] = {
+        "users": [{
+            "email": "love@v2ray.com",
+            "level": 0,
+            "secret": rand_string('0123456789abcdef0123456789abcdef', 32)
+        }]
+    }
+    inbound["streamSettings"] = {}
+    inbound["tag"] = tag
+    inbound["protocol"] = "mtproto"
+    if port > 65535: port -= 900
+    inbound["port"] = port
+    inbound["listen"] = "0.0.0.0"
+
+
+def rand_string(chars, len_c):
+    return ''.join(random.sample(chars, len_c))
+
+
 if __name__ == "__main__":
     (a, b, c, d, e, f) = get_v2ray_config(config_from_t)
-    print(a)
+    print(e)
