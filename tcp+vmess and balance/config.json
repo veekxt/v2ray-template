@@ -1,0 +1,123 @@
+{
+  "log": {},
+  "dns": {},
+  "stats": {},
+  "inbounds": [
+    {
+      "port": "1090",
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      },
+      "tag": "in-0"
+    },
+    {
+      "port": "1091",
+      "protocol": "http",
+      "settings": {},
+      "tag": "in-1"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "1.1.1.1",
+            "port": 3333,
+            "users": [
+              {
+                "id": "8ef39e0e-3709-47fa-85b5-aadf69906cc9",
+                "alterId": 32
+              }
+            ]
+          }
+        ]
+      },
+      "tag": "b-out-0"
+    },
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "2.2.2.2",
+            "port": 3333,
+            "users": [
+              {
+                "id": "8ef39e0e-3709-47fa-85b5-aadf69906cc9",
+                "alterId": 32
+              }
+            ]
+          }
+        ]
+      },
+      "tag": "b-out-1"
+    },
+    {
+      "protocol": "shadowsocks",
+      "settings": {
+        "servers": [
+          {
+            "email": "love@v2ray.com",
+            "address": "3.3.3.3",
+            "port": 3333,
+            "method": "aes-128-gcm",
+            "password": "uyhlfwnawoxeinoi",
+            "ota": false,
+            "level": 0
+          }
+        ]
+      },
+      "tag": "b-out-2",
+      "streamSettings": {
+        "network": "tcp",
+        "security": "none",
+        "tcpSettings": {}
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPOnDemand",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "inboundTag": [
+          "in-0",
+          "in-1"
+        ],
+        "balancerTag": "my-balance"
+      }
+    ],
+    "balancers": [
+      {
+        "tag": "my-balance",
+        "selector": [
+          "b-out-"
+        ]
+      }
+    ]
+  },
+  "policy": {},
+  "reverse": {},
+  "transport": {}
+}
