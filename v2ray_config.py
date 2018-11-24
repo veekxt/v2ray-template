@@ -111,6 +111,7 @@ def get_v2ray_config(config_from):
 
     vmess_uuid = str(uuid.uuid4())
     ss_passwd = rand_string(string.ascii_lowercase, 16)
+    quic_passwd = rand_string(string.ascii_lowercase, 16)
 
     if data_ps == "vmess":
         out_set["vnext"] = [
@@ -164,12 +165,11 @@ def get_v2ray_config(config_from):
     elif network == "quic":
         stream["quicSettings"] = {
             "security": "aes-128-gcm",
-            "key": "",
+            "key": quic_passwd,
             "header": {
                 "type": "none"
             }
         }
-        # todo: quic
     if config_from["tls"] == 1:
         stream["tlsSettings"] = {
             "serverName": server_name,
@@ -326,6 +326,15 @@ def get_v2ray_config(config_from):
             "path": config_from["ws_path"],
             "host": [server_name]
         }
+    elif network == "quic":
+        stream["quicSettings"] = {
+            "security": "aes-128-gcm",
+            "key": quic_passwd,
+            "header": {
+                "type": "none"
+            }
+        }
+        # todo: quic
     if tls_should_be_config:
         stream["tlsSettings"] = {
             "certificates": [
