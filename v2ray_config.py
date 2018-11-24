@@ -162,7 +162,13 @@ def get_v2ray_config(config_from):
             "host": [server_name]
         }
     elif network == "quic":
-        pass
+        stream["quicSettings"] = {
+            "security": "aes-128-gcm",
+            "key": "",
+            "header": {
+                "type": "none"
+            }
+        }
         # todo: quic
     if config_from["tls"] == 1:
         stream["tlsSettings"] = {
@@ -423,3 +429,6 @@ def rand_string(chars, len_c):
 
 if __name__ == "__main__":
     (a, b, c, d, e, f) = get_v2ray_config(config_from_t)
+    print(d)
+    print("================================================")
+    print(e)
