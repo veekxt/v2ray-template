@@ -1,0 +1,67 @@
+{
+  "log": {
+  },
+  "dns": {},
+  "stats": {},
+  "inbounds": [
+    {
+      "port": 10888,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "6538929c-7232-4c6c-84c7-e0a9688f015b",
+            "alterId": 32
+          }
+        ]
+      },
+      "tag": "in-0",
+      "streamSettings": {
+        "network": "quic",
+        "security": "tls",
+        "quicSettings": {
+          "security": "aes-128-gcm",
+          "key": "uarqpzfsvlbdjnih",
+          "header": {
+            "type": "none"
+          }
+        },
+        "tlsSettings": {
+          "certificates": [
+            {
+              "certificateFile": "/root/.acme.sh/veekxt.com/fullchain.cer",
+              "keyFile": "/root/.acme.sh/veekxt.com/veekxt.com.key"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "blocked",
+      "protocol": "blackhole",
+      "settings": {}
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  },
+  "policy": {},
+  "reverse": {},
+  "transport": {}
+}
