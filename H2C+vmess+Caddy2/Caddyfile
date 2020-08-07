@@ -1,0 +1,12 @@
+  
+https://veekxt.com:443 {
+    tls veekxt@gmail.com
+    root * /var/www/
+    file_server
+
+    reverse_proxy /veekxt_websocket_test 127.0.0.1:2002 {
+        transport http {
+          versions h2c
+        }
+    }
+}
