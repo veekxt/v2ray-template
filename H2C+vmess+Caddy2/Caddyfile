@@ -3,7 +3,7 @@ https://veekxt.com:443 {
     root * /var/www/
     file_server
 
-    reverse_proxy /veekxt_h2_test 127.0.0.1:2002 {
+    reverse_proxy /veekxt_h2_test 127.0.0.1:44222 {
         transport http {
           versions h2c
         }
