@@ -20,7 +20,7 @@
       },
       "tag": "in-0",
       "streamSettings": {
-        "network": "http",
+        "network": "h2",
         "security": "none",
         "httpSettings": {
           "path": "/veekxt_h2_test",
