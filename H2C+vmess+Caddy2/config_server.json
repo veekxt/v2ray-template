@@ -23,7 +23,7 @@
         "network": "http",
         "security": "none",
         "httpSettings": {
-          "path": "/veekxt_websocket_test",
+          "path": "/veekxt_h2_test",
           "host": [
             "veekxt.com"
           ]
