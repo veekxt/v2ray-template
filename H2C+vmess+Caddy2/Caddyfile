@@ -1,4 +1,5 @@
-https://veekxt.com:443 {
+#自动开启TLS
+veekxt.com {
     tls veekxt@gmail.com
     root * /var/www/
     file_server
@@ -9,3 +10,18 @@ https://veekxt.com:443 {
         }
     }
 }
+
+#手动开启TLS
+veekxt.com {
+    tls /etc/ssl/veekxt.com.cert /etc/ssl/veekxt.com.key
+    root * /var/www/
+    file_server
+
+    reverse_proxy /veekxt_h2_test 127.0.0.1:44222 {
+        transport http {
+          versions h2c
+        }
+    }
+}
+
+#以上二选一即可
