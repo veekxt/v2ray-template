@@ -1,4 +1,0 @@
-注意：
-目前支持H2C的caddy2还无发行版，需要最新源码编译；可以不必自己编译，去test下载即可。
-具体地址：https://github.com/caddyserver/caddy/actions?query=workflow%3ATests
-选一个最近编译的目录点击进入，根据自己系统下载对应包。
