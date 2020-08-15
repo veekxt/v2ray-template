@@ -1,4 +1,4 @@
-#TLS自动申请证书及秘钥：
+#自动申请TLS证书及秘钥：
 veekxt.com {
     tls veekxt@gmail.com
     root * /var/www
@@ -11,7 +11,7 @@ veekxt.com {
     }
 }
 
-#TLS手工配置证书及秘钥如下：
+#手工配置TLS证书及秘钥如下：
 veekxt.com {
     tls /etc/ssl/veekxt.com.cert /etc/ssl/veekxt.com.key
     root * /var/www
