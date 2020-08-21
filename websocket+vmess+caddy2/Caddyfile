@@ -1,0 +1,29 @@
+#自动申请TLS证书及秘钥：
+veekxt.com {
+    tls veekxt@gmail.com
+    root * /var/www
+    file_server
+
+    @vmess_ws {
+        path /veekxt_websocket_test
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @vmess_ws 127.0.0.1:44222
+}
+
+#手工配置TLS证书及秘钥如下：
+veekxt.com {
+    tls /etc/ssl/veekxt.com.cert /etc/ssl/veekxt.com.key
+    root * /var/www
+    file_server
+
+    @vmess_ws {
+        path /veekxt_websocket_test
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @vmess_ws 127.0.0.1:44222
+}
+
+#注意：以上二选一即可。如网站/v2ray采用非默认443端口，请采用第二种方法手工配置。
